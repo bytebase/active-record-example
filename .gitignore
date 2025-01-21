@@ -70,3 +70,7 @@ yarn-debug.log*
 /public/uploads
 
 *.sqlite3
+
+# PostgreSQL
+*.dump
+postgresql.log
