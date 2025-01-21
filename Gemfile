@@ -6,3 +6,4 @@ gem 'rake'
 gem 'sqlite3'
 gem 'pry'
 gem 'require_all'
+gem "capture_migration_sql"

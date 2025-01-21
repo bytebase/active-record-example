@@ -2,6 +2,7 @@ require 'active_record'
 require 'sinatra/activerecord'
 require 'fileutils'
 require 'pry'
+require 'capture_migration_sql'
 
 # Database configuration
 db_config = {
@@ -53,6 +54,23 @@ namespace :db do
         "  #{c.name} (#{c.type})"
       }
     end
+  end
+
+  desc 'Generate SQL files for migrations'
+  task :to_sql do
+    # Ensure the migration_sql directory exists
+    FileUtils.mkdir_p 'db/migration_sql' unless File.exist?('db/migration_sql')
+    
+    # Configure SQL capture to use original migration filenames
+    CaptureMigrationSql.capture(
+      directory: "db/migration_sql",
+      starting_with: nil
+    )
+    
+    # Run migrations to generate SQL
+    Rake::Task["db:migrate"].invoke
+    
+    puts "\nSQL files generated in db/migration_sql/"
   end
 
   desc 'Reset the database'
