@@ -3,29 +3,17 @@ require 'sinatra/activerecord'
 require 'fileutils'
 require 'pry'
 require 'capture_migration_sql'
-
-# Database configuration
-db_config = {
-  adapter: 'postgresql',
-  host: 'localhost',
-  port: ENV['POSTGRES_PORT'] || 5432,
-  database: 'testdb',
-  username: ENV['POSTGRES_USER'] || 'postgres',
-  password: ENV['POSTGRES_PASSWORD'] || 'testpwd1'
-}
-
-# Set up database connection
-ActiveRecord::Base.establish_connection(db_config)
+require_relative 'config/environment'
 
 namespace :db do
   desc 'Create the database'
   task :create do
     begin
       # Connect to postgres database to create new database
-      temp_config = db_config.merge(database: 'postgres')
+      temp_config = DB_CONFIG.merge(database: 'postgres')
       ActiveRecord::Base.establish_connection(temp_config)
-      ActiveRecord::Base.connection.create_database(db_config[:database])
-      puts "Database created: #{db_config[:database]}"
+      ActiveRecord::Base.connection.create_database(DB_CONFIG[:database])
+      puts "Database created: #{DB_CONFIG[:database]}"
     rescue ActiveRecord::DatabaseAlreadyExists
       puts "Database already exists"
     end
@@ -35,9 +23,9 @@ namespace :db do
   task :drop do
     begin
       # Connect to postgres database to drop the target database
-      temp_config = db_config.merge(database: 'postgres')
+      temp_config = DB_CONFIG.merge(database: 'postgres')
       ActiveRecord::Base.establish_connection(temp_config)
-      ActiveRecord::Base.connection.drop_database(db_config[:database])
+      ActiveRecord::Base.connection.drop_database(DB_CONFIG[:database])
       puts "Database dropped"
     rescue ActiveRecord::DatabaseNotFound
       puts "Database doesn't exist"
@@ -46,7 +34,7 @@ namespace :db do
 
   desc 'Run migrations'
   task :migrate do
-    ActiveRecord::Base.establish_connection(db_config)
+    ActiveRecord::Base.establish_connection(DB_CONFIG)
     ActiveRecord::Base.connection
     
     unless ActiveRecord::Base.connection.table_exists?('schema_migrations')
@@ -96,6 +84,5 @@ end
 
 desc 'Start console'
 task :console do
-  require_relative 'models/user'
   Pry.start
 end 
