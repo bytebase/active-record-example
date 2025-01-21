@@ -2,8 +2,8 @@
 -- AddCityToUsers : 2
 --
 
-BEGIN immediate TRANSACTION;
+BEGIN;
 
-ALTER TABLE "users" ADD "city" varchar;
+ALTER TABLE "users" ADD "city" character varying;
 
 INSERT INTO schema_migrations (version) VALUES ('2');

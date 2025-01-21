@@ -6,8 +6,12 @@ require 'capture_migration_sql'
 
 # Database configuration
 db_config = {
-  adapter: 'sqlite3',
-  database: 'db/development.sqlite3'
+  adapter: 'postgresql',
+  host: 'localhost',
+  port: ENV['POSTGRES_PORT'] || 5432,
+  database: 'testdb',
+  username: ENV['POSTGRES_USER'] || 'postgres',
+  password: ENV['POSTGRES_PASSWORD'] || 'testpwd1'
 }
 
 # Set up database connection
@@ -16,15 +20,28 @@ ActiveRecord::Base.establish_connection(db_config)
 namespace :db do
   desc 'Create the database'
   task :create do
-    FileUtils.mkdir_p 'db' unless File.exist?('db')
-    FileUtils.touch 'db/development.sqlite3'
-    puts "Database created: db/development.sqlite3"
+    begin
+      # Connect to postgres database to create new database
+      temp_config = db_config.merge(database: 'postgres')
+      ActiveRecord::Base.establish_connection(temp_config)
+      ActiveRecord::Base.connection.create_database(db_config[:database])
+      puts "Database created: #{db_config[:database]}"
+    rescue ActiveRecord::DatabaseAlreadyExists
+      puts "Database already exists"
+    end
   end
 
   desc 'Drop the database'
   task :drop do
-    File.delete('db/development.sqlite3') if File.exist?('db/development.sqlite3')
-    puts "Database dropped"
+    begin
+      # Connect to postgres database to drop the target database
+      temp_config = db_config.merge(database: 'postgres')
+      ActiveRecord::Base.establish_connection(temp_config)
+      ActiveRecord::Base.connection.drop_database(db_config[:database])
+      puts "Database dropped"
+    rescue ActiveRecord::DatabaseNotFound
+      puts "Database doesn't exist"
+    end
   end
 
   desc 'Run migrations'
@@ -74,7 +91,7 @@ namespace :db do
   end
 
   desc 'Reset the database'
-  task reset: [:drop, :create, :migrate]
+  task reset: [:drop, :create, :to_sql]
 end
 
 desc 'Start console'

@@ -36,6 +36,7 @@ GEM
     minitest (5.25.4)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
+    pg (1.5.9)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -61,7 +62,6 @@ GEM
     sinatra-activerecord (2.0.28)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
-    sqlite3 (2.5.0-arm64-darwin)
     tilt (2.6.0)
     timeout (0.4.3)
     tzinfo (2.0.6)
@@ -75,11 +75,11 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   capture_migration_sql
+  pg
   pry
   rake
   require_all
   sinatra-activerecord
-  sqlite3
 
 BUNDLED WITH
    2.4.10
