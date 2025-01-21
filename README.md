@@ -1,2 +1,3 @@
-# active-record-example
+# Active Record Example
+
 Active Record with Bytebase API, GitHub actions
