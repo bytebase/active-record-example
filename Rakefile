@@ -61,6 +61,23 @@ namespace :db do
     end
   end
 
+  desc 'Show migration versions'
+  task :versions do
+    ActiveRecord::Base.establish_connection(DB_CONFIG)
+    if ActiveRecord::Base.connection.table_exists?('schema_migrations')
+      versions = ActiveRecord::Base.connection.select_all('SELECT version FROM schema_migrations ORDER BY version').rows.flatten
+      if versions.any?
+        puts "\nApplied migrations:"
+        puts "==================="
+        versions.each { |version| puts version }
+      else
+        puts "No migrations have been applied yet."
+      end
+    else
+      puts "Schema migrations table does not exist. Run migrations first."
+    end
+  end
+
   desc 'Generate SQL files for migrations'
   task :to_sql do
     # Ensure the migration_sql directory exists
