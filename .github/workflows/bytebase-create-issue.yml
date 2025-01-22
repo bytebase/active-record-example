@@ -37,7 +37,7 @@ jobs:
           # fail the action if release checks report any error.
           check-release: "FAIL_ON_ERROR"
           targets: ${{ env.BYTEBASE_TARGETS }}
-          validateOnly: false
+          validate-only: false
       - name: Create plan
         id: create_plan
         uses: bytebase/create-plan-from-release-action@v1
