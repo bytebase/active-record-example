@@ -14,7 +14,7 @@ jobs:
       BYTEBASE_PROJECT: "projects/project-sample"
       BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
       BYTEBASE_TARGETS: "instances/prod-sample-instance/databases/db1"
-      FILE_PATTERN: "migrations/*.sql"
+      FILE_PATTERN: "db/migration_sql/*.sql"
     name: Create issue
     steps:
       - name: Checkout
