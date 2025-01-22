@@ -1,0 +1,59 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  bytebase-create-issue:
+    runs-on: ubuntu-latest
+    env:
+      BYTEBASE_URL: "https://14ca-103-170-72-209.ngrok-free.app"
+      BYTEBASE_PROJECT: "projects/project-sample"
+      BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
+      BYTEBASE_TARGETS: "instances/prod-sample-instance/databases/db1"
+      FILE_PATTERN: "migrations/*.sql"
+    name: Create issue
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to Bytebase
+        id: login
+        uses: bytebase/login-action@main
+        with:
+          bytebase-url: ${{ env.BYTEBASE_URL }}
+          service-key: ${{ env.BYTEBASE_SERVICE_ACCOUNT }}
+          service-secret: ${{ secrets.BYTEBASE_PASSWORD }}
+      - name: Create release
+        id: create_release
+        uses: bytebase/create-release-action@v1
+        with:
+          url: ${{ env.BYTEBASE_URL }}
+          token: ${{ steps.login.outputs.token }}
+          project: ${{ env.BYTEBASE_PROJECT }}
+          file-pattern: ${{ env.FILE_PATTERN }}
+          # fail the action if release checks report any error.
+          check-release: "FAIL_ON_ERROR"
+          targets: ${{ env.BYTEBASE_TARGETS }}
+      - name: Create plan
+        id: create_plan
+        uses: bytebase/create-plan-from-release-action@v1
+        with:
+          url: ${{ env.BYTEBASE_URL }}
+          token: ${{ steps.login.outputs.token }}
+          project: ${{ env.BYTEBASE_PROJECT }}
+          release: ${{ steps.create_release.outputs.release }}
+          targets: ${{ env.BYTEBASE_TARGETS }}
+          # fail the action if plan checks report any error.
+          check-plan: FAIL_ON_ERROR
+      - name: Create rollout
+        id: rollout
+        uses: bytebase/rollout-action@v1
+        with:
+          url: ${{ env.BYTEBASE_URL }}
+          token: ${{ steps.login.outputs.token }}
+          plan: ${{ steps.create_plan.outputs.plan }}
+          # set target-stage to exit after the stage completes
+          # target-stage: 'Test Stage'
