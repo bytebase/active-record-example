@@ -7,7 +7,7 @@ jobs:
   bytebase-create-issue:
     runs-on: ubuntu-latest
     env:
-      BYTEBASE_URL: "https://56c6-103-170-72-209.ngrok-free.app"
+      BYTEBASE_URL: ${{ vars.BYTEBASE_URL }}
       BYTEBASE_PROJECT: "projects/project-sample"
       BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
       BYTEBASE_TARGETS: "instances/prod-sample-instance/databases/db1,instances/prod-sample-instance/databases/db2"
