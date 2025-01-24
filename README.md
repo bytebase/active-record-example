@@ -2,7 +2,7 @@
 
 A demonstration of Active Record integration with Bytebase API and GitHub Actions GitOps workflow.
 
-# Workflow
+## Workflow
 
 1. Developer creates a new migration file in `db/migrate/` and applies to the local database.
 1. When developer finishes the local development, they can run `rake db:to_sql` to generate the raw SQL file. The file
@@ -30,12 +30,12 @@ A demonstration of Active Record integration with Bytebase API and GitHub Action
 
       ![revision](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/revision.webp)
 
-# How to Sync Active Record `schema_migrations` table
+## How to Sync Active Record `schema_migrations` table
 
 Active Record creates its own `schema_migrations` table to track the migration history. Because you are deploying schema migrations
 via Bytebase, if you want to keep updating the `schema_migrations` table, you need to manually create and update it.
 
-## Create `schema_migrations` table (Postgres Dialect)
+### Create `schema_migrations` table (Postgres Dialect)
 
 ```sql
 CREATE SEQUENCE public.schema_migrations_id_seq;
@@ -48,7 +48,7 @@ CREATE TABLE public.schema_migrations (
 CREATE UNIQUE INDEX index_schema_migrations_on_version ON public.schema_migrations (version);
 ```
 
-## Update the migration history
+### Update the migration history
 
 ```sql
 INSERT INTO schema_migrations (version) VALUES ('20240320121000');
