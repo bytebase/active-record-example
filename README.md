@@ -10,7 +10,7 @@ A demonstration of Active Record integration with Bytebase API and GitHub Action
 1. Developer creates a PR ([Sample](https://github.com/bytebase/active-record-example/pull/5/files)) with the `.rb` and `.sql` files for review.
 1. `bytebase-review-sql.yml` GitHub action kicks off and post any warnings.
 
-   ![sql-review](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/review.webp)
+   ![sql-review](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/sql-review.webp)
 
    The above screenshot shows 2 warnings: NOT NULL violation and missing CONCURRENT when creating index. These rules are [configurable](https://www.bytebase.com/docs/sql-review/review-rules/).
 
@@ -31,3 +31,5 @@ A demonstration of Active Record integration with Bytebase API and GitHub Action
    1. Rollout completes and Bytebase records the revision.
 
       ![revision](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/revision.webp)
+
+# Note
