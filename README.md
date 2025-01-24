@@ -22,3 +22,7 @@ A demonstration of Active Record integration with Bytebase API and GitHub Action
    1. Roll out the plan.
 
       ![rollout](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/rollout.webp)
+
+   1. Rollout completes and Bytebase records the revision.
+
+      ![revision](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/revision.webp)
