@@ -2,6 +2,9 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "db/migration_sql/*.sql"
+
 jobs:
   bytebase-review-sql:
     runs-on: ubuntu-latest

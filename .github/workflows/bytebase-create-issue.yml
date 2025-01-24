@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "db/migration_sql/*.sql"
 
 jobs:
   bytebase-create-issue:
