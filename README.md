@@ -1,3 +1,24 @@
-# Active Record Example
+# Active Record GitOps Example
 
-Active Record with Bytebase API, GitHub actions
+A demonstration of Active Record integration with Bytebase API and GitHub Actions GitOps workflow.
+
+# Workflow
+
+1. Developer creates a new migration file in `db/migrate/` and applies to the local database.
+1. When developer finishes the local development, they can run `rake db:to_sql` to generate the raw SQL file. The file
+   is co-located with the `.rb` migration file.
+1. Developer creates a PR ([Sample](https://github.com/bytebase/active-record-example/pull/5)) with the `.rb` and `.sql` files for review.
+1. `bytebase-review-sql.yml` GitHub action kicks off and post any warnings.
+1. Back and forth between the developer and the reviewer.
+1. PR is approved and merged to the main branch.
+1. `bytebase-roll-out-sql.yml` GitHub action kicks off:
+
+   1. Create a Bytebase release.
+
+      ![release](https://raw.githubusercontent.com/bytebase/active-record-example/main/assets/release.webp)
+
+   1. Create a Bytebase plan based on the release. The plan can target multiple databases. Thus the plan may contain multiple stages and each stage may contain multiple tasks.
+
+   1. Roll out the plan.
+
+      ![rollout](https://raw.githubusercontent.com/bytebase/active-record-example/main/assets/rollout.webp)
