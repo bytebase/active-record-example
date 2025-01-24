@@ -3,7 +3,7 @@ on:
     branches:
       - main
     paths:
-      - "db/migration_sql/*.sql"
+      - "db/migrate/*.sql"
 
 jobs:
   bytebase-create-issue:
@@ -13,7 +13,7 @@ jobs:
       BYTEBASE_PROJECT: "projects/project-sample"
       BYTEBASE_SERVICE_ACCOUNT: "ci@service.bytebase.com"
       BYTEBASE_TARGETS: "instances/prod-sample-instance/databases/db1,instances/prod-sample-instance/databases/db2"
-      FILE_PATTERN: "db/migration_sql/*.sql"
+      FILE_PATTERN: "db/migrate/*.sql"
     name: Create issue
     steps:
       - name: Checkout
