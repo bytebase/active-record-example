@@ -15,10 +15,10 @@ A demonstration of Active Record integration with Bytebase API and GitHub Action
 
    1. Create a Bytebase release.
 
-      ![release](https://raw.githubusercontent.com/bytebase/active-record-example/main/assets/release.webp)
+      ![release](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/release.webp)
 
    1. Create a Bytebase plan based on the release. The plan can target multiple databases. Thus the plan may contain multiple stages and each stage may contain multiple tasks.
 
    1. Roll out the plan.
 
-      ![rollout](https://raw.githubusercontent.com/bytebase/active-record-example/main/assets/rollout.webp)
+      ![rollout](https://raw.githubusercontent.com/bytebase/active-record-example/refs/heads/main/assets/rollout.webp)
